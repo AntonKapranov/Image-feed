@@ -1,6 +1,7 @@
 import UIKit
 
 private let photosName: [String] = Array(0..<20).map{ "mock-image\($0)" }
+//let gradient = CAGradientLayer()
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -30,8 +31,15 @@ extension ImagesListViewController {
         cell.imageCell.layer.cornerRadius = 16
         cell.imageCell.image = image
         cell.labelCell.text = dateFormatter.string(from: Date())
-        cell.gradientCell.backgroundColor = .red
-        cell.gradientCell.layer.cornerRadius = 16
+        
+//        gradient.frame = cell.gradientCell.bounds
+//        let ypBlack = UIColor(named: "YP Black")!.cgColor
+//        let ypBlackAlpha0 = UIColor(named: "YP Black (Alpha 0)")!.withAlphaComponent(0).cgColor\
+//        gradient.colors = [UIColor.white.cgColor, UIColor.black.cgColor]
+//        gradient.colors = [UIColor.ypBlack_0.cgColor, UIColor.ypBlack.cgColor]
+//        cell.gradientCell.layer.insertSublayer(gradient, at: 0)
+//        cell.gradientCell.layer.cornerRadius = 16
+//        cell.gradientCell.addGradiend(colors: [UIColor.ypBlack_0.cgColor, UIColor.ypBlack.cgColor])
 
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "Heart-active") : UIImage(named: "Heart-unactive")
