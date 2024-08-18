@@ -1,6 +1,6 @@
 import UIKit
 
-private let photosName: [String] = Array(0..<20).map{ "mock-image\($0)" }
+let photosName: [String] = Array(0..<20).map{ "mock-image\($0)" }
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -8,6 +8,10 @@ extension ImagesListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        //Сигвей
+//        performSegue(withIdentifier: "ShowSingleImage", sender: indexPath)
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
 
         guard let imageListCell = cell as? ImagesListCell else {
@@ -30,17 +34,14 @@ extension ImagesListViewController {
         cell.imageCell.layer.cornerRadius = 16
         cell.imageCell.image = image
         cell.labelCell.text = dateFormatter.string(from: Date())
-        cell.gradientCell.backgroundColor = .red
-        cell.gradientCell.layer.cornerRadius = 16
+//        cell.gradientCell.backgroundColor = .red
+//        cell.gradientCell.layer.cornerRadius = 16
 
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "Heart-active") : UIImage(named: "Heart-unactive")
         cell.buttonCell.setImage(likeImage, for: .normal)
     }
 }
-
-extension ImagesListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
@@ -54,5 +55,6 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
     }
-}
+
+
 
