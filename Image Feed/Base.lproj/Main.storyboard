@@ -142,9 +142,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mock-image0" translatesAutoresizingMaskIntoConstraints="NO" id="k8v-A4-fd0">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gja-31-qW6">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                            </imageView>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mock-image0" translatesAutoresizingMaskIntoConstraints="NO" id="k8v-A4-fd0">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <viewLayoutGuide key="contentLayoutGuide" id="dL4-GZ-Q53"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="bE8-kA-Kab"/>
+                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nme-64-sFw">
                                 <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                 <constraints>
@@ -161,12 +169,12 @@
                         <viewLayoutGuide key="safeArea" id="7SH-v9-X6s"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
-                            <constraint firstItem="k8v-A4-fd0" firstAttribute="leading" secondItem="tHW-1y-4Lj" secondAttribute="leading" id="1bN-hL-VTj"/>
-                            <constraint firstAttribute="bottom" secondItem="k8v-A4-fd0" secondAttribute="bottom" id="DlQ-f0-YsY"/>
+                            <constraint firstItem="Gja-31-qW6" firstAttribute="leading" secondItem="7SH-v9-X6s" secondAttribute="leading" id="8PY-2M-KRD"/>
                             <constraint firstItem="Nme-64-sFw" firstAttribute="leading" secondItem="7SH-v9-X6s" secondAttribute="leading" id="FhY-sE-Hli"/>
-                            <constraint firstAttribute="trailing" secondItem="k8v-A4-fd0" secondAttribute="trailing" id="NcJ-pm-IUl"/>
+                            <constraint firstItem="Gja-31-qW6" firstAttribute="top" secondItem="7SH-v9-X6s" secondAttribute="top" id="ZAj-Vz-00Z"/>
                             <constraint firstItem="Nme-64-sFw" firstAttribute="top" secondItem="7SH-v9-X6s" secondAttribute="top" id="cC5-Gq-OPa"/>
-                            <constraint firstItem="k8v-A4-fd0" firstAttribute="top" secondItem="tHW-1y-4Lj" secondAttribute="top" id="tfE-0D-Zng"/>
+                            <constraint firstItem="Gja-31-qW6" firstAttribute="bottom" secondItem="7SH-v9-X6s" secondAttribute="bottom" id="nth-bL-46m"/>
+                            <constraint firstItem="Gja-31-qW6" firstAttribute="trailing" secondItem="7SH-v9-X6s" secondAttribute="trailing" id="wRc-1i-b3P"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WRs-AJ-ehs"/>
