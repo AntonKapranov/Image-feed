@@ -152,6 +152,9 @@
                                 </subviews>
                                 <viewLayoutGuide key="contentLayoutGuide" id="dL4-GZ-Q53"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="bE8-kA-Kab"/>
+                                <connections>
+                                    <outlet property="delegate" destination="eAs-5U-gTS" id="ZU7-Ew-trQ"/>
+                                </connections>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nme-64-sFw">
                                 <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
@@ -171,15 +174,16 @@
                         <constraints>
                             <constraint firstItem="Gja-31-qW6" firstAttribute="leading" secondItem="7SH-v9-X6s" secondAttribute="leading" id="8PY-2M-KRD"/>
                             <constraint firstItem="Nme-64-sFw" firstAttribute="leading" secondItem="7SH-v9-X6s" secondAttribute="leading" id="FhY-sE-Hli"/>
-                            <constraint firstItem="Gja-31-qW6" firstAttribute="top" secondItem="7SH-v9-X6s" secondAttribute="top" id="ZAj-Vz-00Z"/>
+                            <constraint firstItem="Gja-31-qW6" firstAttribute="top" secondItem="tHW-1y-4Lj" secondAttribute="top" id="ZAj-Vz-00Z"/>
                             <constraint firstItem="Nme-64-sFw" firstAttribute="top" secondItem="7SH-v9-X6s" secondAttribute="top" id="cC5-Gq-OPa"/>
-                            <constraint firstItem="Gja-31-qW6" firstAttribute="bottom" secondItem="7SH-v9-X6s" secondAttribute="bottom" id="nth-bL-46m"/>
+                            <constraint firstItem="Gja-31-qW6" firstAttribute="bottom" secondItem="tHW-1y-4Lj" secondAttribute="bottom" id="nth-bL-46m"/>
                             <constraint firstItem="Gja-31-qW6" firstAttribute="trailing" secondItem="7SH-v9-X6s" secondAttribute="trailing" id="wRc-1i-b3P"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WRs-AJ-ehs"/>
                     <connections>
                         <outlet property="imageView" destination="k8v-A4-fd0" id="BLF-Yy-hVo"/>
+                        <outlet property="scrollView" destination="Gja-31-qW6" id="c3T-bQ-aov"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YHg-od-f1S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
