@@ -142,7 +142,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gja-31-qW6">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" placeholderIntrinsicWidth="393" placeholderIntrinsicHeight="852" translatesAutoresizingMaskIntoConstraints="NO" id="Gja-31-qW6">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mock-image0" translatesAutoresizingMaskIntoConstraints="NO" id="k8v-A4-fd0">
@@ -156,6 +156,18 @@
                                     <outlet property="delegate" destination="eAs-5U-gTS" id="ZU7-Ew-trQ"/>
                                 </connections>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dqY-VO-loS" userLabel="Share">
+                                <rect key="frame" x="171" y="785" width="51" height="51"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="51" id="BwW-B3-dS0"/>
+                                    <constraint firstAttribute="width" constant="51" id="ChS-xT-Obi"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button" image="share-icon"/>
+                                <connections>
+                                    <action selector="didTapShareButton:" destination="eAs-5U-gTS" eventType="touchUpInside" id="c6p-42-UDZ"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nme-64-sFw">
                                 <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                 <constraints>
@@ -172,8 +184,10 @@
                         <viewLayoutGuide key="safeArea" id="7SH-v9-X6s"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
+                            <constraint firstItem="dqY-VO-loS" firstAttribute="centerX" secondItem="tHW-1y-4Lj" secondAttribute="centerX" id="4K9-q9-sq1"/>
                             <constraint firstItem="Gja-31-qW6" firstAttribute="leading" secondItem="7SH-v9-X6s" secondAttribute="leading" id="8PY-2M-KRD"/>
                             <constraint firstItem="Nme-64-sFw" firstAttribute="leading" secondItem="7SH-v9-X6s" secondAttribute="leading" id="FhY-sE-Hli"/>
+                            <constraint firstItem="7SH-v9-X6s" firstAttribute="bottom" secondItem="dqY-VO-loS" secondAttribute="bottom" constant="16" id="QCL-mB-Lja"/>
                             <constraint firstItem="Gja-31-qW6" firstAttribute="top" secondItem="tHW-1y-4Lj" secondAttribute="top" id="ZAj-Vz-00Z"/>
                             <constraint firstItem="Nme-64-sFw" firstAttribute="top" secondItem="7SH-v9-X6s" secondAttribute="top" id="cC5-Gq-OPa"/>
                             <constraint firstItem="Gja-31-qW6" firstAttribute="bottom" secondItem="tHW-1y-4Lj" secondAttribute="bottom" id="nth-bL-46m"/>
@@ -278,6 +292,7 @@
         <image name="Profile-active" width="30" height="30"/>
         <image name="back-button" width="24" height="24"/>
         <image name="mock-image0" width="1600" height="1059"/>
+        <image name="share-icon" width="51" height="51"/>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
