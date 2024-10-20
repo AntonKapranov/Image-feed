@@ -22,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		25698FF92CC4AA5000533C7F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		76009E072C5636A000505E50 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7698B4542C5340C20021E6A8 /* DateFormater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormater.swift; sourceTree = "<group>"; };
 		76D71A012C698D4E00A5B9C2 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +112,7 @@
 				7D9CFA4D28DDEE8000D971A7 /* LaunchScreen.storyboard */,
 				7D9CFA4B28DDEE8000D971A7 /* Assets.xcassets */,
 				7D9CFA5028DDEE8000D971A7 /* Info.plist */,
+				25698FF92CC4AA5000533C7F /* Constants.swift */,
 			);
 			path = "Image Feed";
 			sourceTree = "<group>";
