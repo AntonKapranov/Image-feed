@@ -7,6 +7,7 @@ enum WebViewConstants {
 
 final class WebViewController: UIViewController {
     @IBOutlet weak var webView: WKWebView!
+    webView.navigationDelegate = self
     override func viewDidLoad() {
         super.viewDidLoad()
         loadAuthView()
@@ -39,4 +40,32 @@ extension WebViewController {
         let request = URLRequest(url: url)
         webView.load(request)
         }
+    
+    private func code(from navigationAction: WKNavigationAction) -> String? {
+        if
+            let url = navigationAction.request.url,
+            let urlComponents = URLComponents(string: url.absoluteString),
+            urlComponents.path == "/oauth/authorize/native",
+            let items = urlComponents.queryItems,
+            let codeItem = items.first(where: { $0.name == "code" })
+        {
+            return codeItem.value
+        } else {
+            return nil
+        }
+    }
+}
+
+extension WebViewController:WKNavigationDelegate {
+    func webView(
+        _ webView: WKWebView,
+            decidePolicyFor navigationAction: WKNavigationAction,
+            decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
+    ){
+        if let code = code(from: navigationAction) {
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+    }
 }
