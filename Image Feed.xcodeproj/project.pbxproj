@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		256990242CC73EB800533C7F /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256990232CC73EB300533C7F /* AuthViewController.swift */; };
-		256990262CC7443100533C7F /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256990252CC7442C00533C7F /* WebViewController.swift */; };
 		256990282CC761F700533C7F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256990272CC761F000533C7F /* Constants.swift */; };
+		2578B0F22CDEC3550084086A /* WebViewViewController.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2578B0F12CDEC3540084086A /* WebViewViewController.swift.swift */; };
 		76009E082C5636A000505E50 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76009E072C5636A000505E50 /* ProfileViewController.swift */; };
 		7698B4552C5340C20021E6A8 /* DateFormater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7698B4542C5340C20021E6A8 /* DateFormater.swift */; };
 		76D71A022C698D4E00A5B9C2 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D71A012C698D4E00A5B9C2 /* SingleImageViewController.swift */; };
@@ -26,8 +26,8 @@
 
 /* Begin PBXFileReference section */
 		256990232CC73EB300533C7F /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
-		256990252CC7442C00533C7F /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		256990272CC761F000533C7F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		2578B0F12CDEC3540084086A /* WebViewViewController.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift.swift; sourceTree = "<group>"; };
 		76009E072C5636A000505E50 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7698B4542C5340C20021E6A8 /* DateFormater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormater.swift; sourceTree = "<group>"; };
 		76D71A012C698D4E00A5B9C2 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				256990232CC73EB300533C7F /* AuthViewController.swift */,
-				256990252CC7442C00533C7F /* WebViewController.swift */,
+				2578B0F12CDEC3540084086A /* WebViewViewController.swift.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -217,8 +217,8 @@
 				76DA4A752C52E37C00F842E1 /* TableView.swift in Sources */,
 				256990242CC73EB800533C7F /* AuthViewController.swift in Sources */,
 				76DA4A782C52E40000F842E1 /* UIColor.swift in Sources */,
-				256990262CC7443100533C7F /* WebViewController.swift in Sources */,
 				76009E082C5636A000505E50 /* ProfileViewController.swift in Sources */,
+				2578B0F22CDEC3550084086A /* WebViewViewController.swift.swift in Sources */,
 				7D9CFA4328DDEE7F00D971A7 /* AppDelegate.swift in Sources */,
 				7698B4552C5340C20021E6A8 /* DateFormater.swift in Sources */,
 				7D9CFA4528DDEE7F00D971A7 /* SceneDelegate.swift in Sources */,
