@@ -1,6 +1,13 @@
 import UIKit
 
 struct OAuthTokenResponseBody: Decodable {
+    private enum CodingKeys: String, CodingKey {
+        case accessToken = "access_token"
+        case tokenType = "token_type"
+        case scope
+        case createdAt = "created_at"
+    }
+    
     let accessToken: String
     let tokenType: String
     let scope: String

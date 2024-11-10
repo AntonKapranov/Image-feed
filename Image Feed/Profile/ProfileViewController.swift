@@ -93,7 +93,7 @@ class ProfileViewController: UIViewController {
     
     private func setupView() {
         view.addSubview(mainStack)
-        exitButton.addTarget(self, action: #selector(logOut), for: .touchUpInside)
+//        exitButton.addTarget(self, action: #selector(logOut), for: .touchUpInside)
     }
     
     private func setupStackView() { //Кастыль с пустым вью. Делал так ещё с flex box в CSS
@@ -106,8 +106,8 @@ class ProfileViewController: UIViewController {
     private func logOut() {
         if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
             tokenStorage.token = nil
-            let splashViewController = SplashViewController()
-            window.rootViewController = splashViewController
+            let vc = AuthViewController()
+            window.rootViewController = vc
             UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
         }
         print("logOut")
