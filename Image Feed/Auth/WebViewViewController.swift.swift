@@ -30,10 +30,6 @@ final class WebViewViewController: UIViewController {
         updateProgress()
     }
     
-    @IBAction private func tapBackButton(_ sender: Any?) {
-        delegate?.webViewViewControllerDidCancel(self)
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -42,16 +38,16 @@ final class WebViewViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
+        removeObserver()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        webView.removeObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            context: nil
-        )
+        removeObserver()
     }
+    
+    @IBAction private func tapBackButton(_ sender: Any?) {
+            delegate?.webViewViewControllerDidCancel(self)
+        }
 }
 
 extension WebViewViewController {
@@ -101,6 +97,13 @@ extension WebViewViewController {
             context: nil)
     }
     
+    private func removeObserver(){
+        webView.removeObserver(
+            self,
+            forKeyPath: #keyPath(WKWebView.estimatedProgress),
+            context: nil)
+    }
+    
     override func observeValue(
         forKeyPath keyPath: String?,
         of object: Any?,
@@ -119,5 +122,4 @@ extension WebViewViewController {
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
 }
-
 
