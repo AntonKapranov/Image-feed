@@ -101,7 +101,7 @@ class ProfileViewController: UIViewController {
         [namePrimary,nameSecondary,userMessage].forEach({vStack.addArrangedSubview($0)})
         [hStack,vStack].forEach({mainStack.addArrangedSubview($0)})
     }
-    //MARK: TODO - //пока крашится, но сойдёт
+    //MARK: TODO - //пока крашится, но сойдёт. FIX IT!!!
     @objc
     private func logOut() {
         if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
