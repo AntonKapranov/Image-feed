@@ -1,9 +1,8 @@
 import UIKit
 
 struct OAuthTokenResponseBody: Decodable {
-    let acessToken: String
+    let accessToken: String
 }
-
 
 final class OAuth2TokenStorage {
     private let tokenKey = "OAuth2AccessToken"

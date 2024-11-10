@@ -40,8 +40,8 @@ final class OAuth2Service {
             case .success(let data):
                 do {
                     let responseBody = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                    self.tokenStorage.token = responseBody.acessToken
-                    completion(.success(responseBody.acessToken))
+                    self.tokenStorage.token = responseBody.accessToken
+                    completion(.success(responseBody.accessToken))
                 } catch {
                     print("Decoding error: \(error)")
                     completion(.failure(error))
