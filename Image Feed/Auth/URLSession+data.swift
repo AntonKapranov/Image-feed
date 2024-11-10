@@ -6,6 +6,7 @@ enum NetworkError: Error {
     case urlSessionError
 }
 
+
 extension URLSession {
     func data(
         for request: URLRequest,
