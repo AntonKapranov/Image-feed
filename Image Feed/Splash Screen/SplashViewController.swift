@@ -2,7 +2,7 @@ import UIKit
 
 private enum SplashConstants {
     static let segueIdentifier = "ShowAuthenticationScreen"
-    static let oauth2Service = OAuth2Service.shared
+    static let oauth2Service = OAuth2Service.service
     static let oauth2TokenStorage = OAuth2TokenStorage()
 }
 

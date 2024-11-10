@@ -1,7 +1,7 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
-    
+    private let tokenStorage = OAuth2TokenStorage()
     private let userAvatar:UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "Avatar")
@@ -93,12 +93,24 @@ class ProfileViewController: UIViewController {
     
     private func setupView() {
         view.addSubview(mainStack)
+        exitButton.addTarget(self, action: #selector(logOut), for: .touchUpInside)
     }
     
     private func setupStackView() { //Кастыль с пустым вью. Делал так ещё с flex box в CSS
         [userAvatar,UIView(),exitButton].forEach({hStack.addArrangedSubview($0)})
         [namePrimary,nameSecondary,userMessage].forEach({vStack.addArrangedSubview($0)})
         [hStack,vStack].forEach({mainStack.addArrangedSubview($0)})
+    }
+    //MARK: TODO - //пока крашится, но сойдёт
+    @objc
+    private func logOut() {
+        if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+            tokenStorage.token = nil
+            let splashViewController = SplashViewController()
+            window.rootViewController = splashViewController
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+        }
+        print("logOut")
     }
 }
 

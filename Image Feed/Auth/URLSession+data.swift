@@ -6,10 +6,9 @@ enum NetworkError: Error {
     case urlSessionError
 }
 
-
 extension URLSession {
-    func data(
-        for request: URLRequest,
+    func dataTask(
+        with request: URLRequest,
         completion: @escaping (Result<Data, Error>) -> Void
     ) -> URLSessionTask {
         let fulfillCompletionOnTheMainThread: (Result<Data, Error>) -> Void = { result in
@@ -18,8 +17,9 @@ extension URLSession {
             }
         }
         
-        let task = dataTask(with: request, completionHandler: { data, response, error in
-            if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
+        let task = dataTask(with: request) { data, response, error in
+            if let data = data, let response = response as? HTTPURLResponse {
+                let statusCode = response.statusCode
                 if 200 ..< 300 ~= statusCode {
                     fulfillCompletionOnTheMainThread(.success(data))
                 } else {
@@ -30,7 +30,7 @@ extension URLSession {
             } else {
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
             }
-        })
+        }
         
         return task
     }

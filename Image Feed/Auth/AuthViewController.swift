@@ -1,5 +1,4 @@
 import UIKit
-import WebKit
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode: String)
@@ -8,6 +7,8 @@ protocol AuthViewControllerDelegate: AnyObject {
 final class AuthViewController: UIViewController {
     weak var delegate: AuthViewControllerDelegate?
     private let showWebViewSegueIdentifier = "ShowWebView"
+    private let auth2 = OAuth2Service.service
+    private let tabBArID = "TabBarViewController"
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -21,8 +22,27 @@ final class AuthViewController: UIViewController {
     }
 }
 
+extension AuthViewController {
+    func switchToTabBarController() {
+        guard let window = UIApplication.shared.windows.first else {
+            fatalError("No available window to set root view controller")
+        }
+        
+        let tabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: tabBArID)
+        window.rootViewController = tabBarController
+    }
+}
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        auth2.fetchOAuthToken(code: code) { [weak self] result in
+            switch result {
+            case .success(let accessToken):
+                print("Success: \(accessToken)")
+                self?.switchToTabBarController()
+            case .failure(let error):
+                print("Failure: \(error)")
+            }
+        }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
@@ -30,5 +50,3 @@ extension AuthViewController: WebViewViewControllerDelegate {
         dismiss(animated: true)
     }
 }
-
-//i f*n hate storyboards. I had developed it by code in minutes, but spend days in trying to resolve a Nil in Delegate's call. This is my last ever App in Storyboards - @got_sin
