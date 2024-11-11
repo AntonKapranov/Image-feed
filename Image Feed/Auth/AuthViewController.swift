@@ -14,13 +14,17 @@ final class AuthViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
-            guard let webViewViewController = segue.destination as? WebViewViewController
-            else { fatalError("Failed to prepare for \(showWebViewSegueIdentifier)") }
+            guard !UIBlockingProgressHUD.isActive else { return }
+            
+            guard let webViewViewController = segue.destination as? WebViewViewController else {
+                fatalError("Failed to prepare for \(showWebViewSegueIdentifier)")
+            }
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
         }
     }
+
 }
 
 extension AuthViewController {
@@ -36,6 +40,7 @@ extension AuthViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
+//        dismiss(animated: true)
 //        ProgressHUD.animate("Loading", .ballVerticalBounce) //поигрался
         
         auth2.fetchOAuthToken(code) { [weak self] result in

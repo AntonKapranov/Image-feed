@@ -2,18 +2,27 @@ import UIKit
 import ProgressHUD
 
 final class UIBlockingProgressHUD {
-    private static var window: UIWindow? {
-        return UIApplication.shared.windows.first
-    }
+    private static var isProgressHUDActive = false
     
     static func show() {
-        window?.isUserInteractionEnabled = false
+        if let window = UIApplication.shared.windows.first {
+            window.isUserInteractionEnabled = false
+        }
         ProgressHUD.animate()
+        isProgressHUDActive = true
     }
     
     static func dismiss() {
-        window?.isUserInteractionEnabled = true
+        if let window = UIApplication.shared.windows.first {
+            window.isUserInteractionEnabled = true
+        }
         ProgressHUD.dismiss()
+        isProgressHUDActive = false
+    }
+    
+    static var isActive: Bool {
+        return isProgressHUDActive
     }
 }
+
 
