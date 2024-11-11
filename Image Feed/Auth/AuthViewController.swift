@@ -1,4 +1,5 @@
 import UIKit
+import ProgressHUD
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode: String)
@@ -34,7 +35,11 @@ extension AuthViewController {
 }
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        auth2.fetchOAuthToken(code: code) { [weak self] result in
+        ProgressHUD.animate("Loading", .ballVerticalBounce) //поигрался
+        
+        auth2.fetchOAuthToken(code) { [weak self] result in
+            
+            ProgressHUD.dismiss()
             switch result {
             case .success(let accessToken):
                 print("Success: \(accessToken)")

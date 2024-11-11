@@ -46,7 +46,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchOAuthToken(_ code: String) {
-        SplashConstants.oauth2Service.fetchOAuthToken(code: code) { [weak self] result in
+        SplashConstants.oauth2Service.fetchOAuthToken(code) { [weak self] result in
             switch result {
             case .success(let accessToken):
                 SplashConstants.oauth2TokenStorage.token = accessToken

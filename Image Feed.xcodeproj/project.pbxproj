@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2521F2DE2CE18A9200955A14 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 2521F2DD2CE18A9200955A14 /* ProgressHUD */; };
 		256990242CC73EB800533C7F /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256990232CC73EB300533C7F /* AuthViewController.swift */; };
 		256990282CC761F700533C7F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256990272CC761F000533C7F /* Constants.swift */; };
 		2578B0F22CDEC3550084086A /* WebViewViewController.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2578B0F12CDEC3540084086A /* WebViewViewController.swift.swift */; };
@@ -61,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2521F2DE2CE18A9200955A14 /* ProgressHUD in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +222,9 @@
 				Base,
 			);
 			mainGroup = 7D9CFA3628DDEE7F00D971A7;
+			packageReferences = (
+				2521F2DC2CE18A9200955A14 /* XCRemoteSwiftPackageReference "ProgressHUD" */,
+			);
 			productRefGroup = 7D9CFA4028DDEE7F00D971A7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -494,6 +499,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2521F2DC2CE18A9200955A14 /* XCRemoteSwiftPackageReference "ProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/relatedcode/ProgressHUD";
+			requirement = {
+				kind = exactVersion;
+				version = 14.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2521F2DD2CE18A9200955A14 /* ProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2521F2DC2CE18A9200955A14 /* XCRemoteSwiftPackageReference "ProgressHUD" */;
+			productName = ProgressHUD;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7D9CFA3728DDEE7F00D971A7 /* Project object */;
 }

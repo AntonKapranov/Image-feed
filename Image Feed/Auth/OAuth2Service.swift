@@ -1,20 +1,50 @@
 import UIKit
 
+enum AuthServiceError: Error {
+    case invalidRequest
+}
+
 final class OAuth2Service {
     static let service = OAuth2Service()
     private let storage = OAuth2TokenStorage()
+    private let urlSession = URLSession.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
+
     private init() {}
-    
+
     private(set) var authToken: String? {
         get { storage.token }
         set { storage.token = newValue }
     }
     
-    private func performRequest(_ request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+
+        guard lastCode != code else {
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
+
+        if let currentTask = task {
+            currentTask.cancel()
+            completion(.failure(AuthServiceError.invalidRequest))
+        }
+
+        lastCode = code
+        
+        guard let request = makeOAuthTokenRequest(code: code) else {
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
+
+        let task = urlSession.dataTask(with: request) { [weak self] data, response, error in
             DispatchQueue.main.async {
+                self?.task = nil
+                self?.lastCode = nil
+                
                 if let error = error {
-                    completion(.failure(NetworkError.urlRequestError(error)))
+                    completion(.failure(error))
                     return
                 }
                 
@@ -28,36 +58,19 @@ final class OAuth2Service {
                     return
                 }
                 
-                completion(.success(data))
-            }
-        }
-        task.resume()
-    }
-
-    func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let request = makeOAuthTokenRequest(code: code) else {
-            let error = NSError(domain: "OAuth2Service", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create request"])
-            completion(.failure(NetworkError.urlRequestError(error)))
-            return
-        }
-
-        performRequest(request) { result in
-            switch result {
-            case .success(let data):
                 do {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    
                     let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    self.authToken = responseBody.accessToken
+                    self?.authToken = responseBody.accessToken
                     completion(.success(responseBody.accessToken))
                 } catch {
                     completion(.failure(error))
                 }
-            case .failure(let error):
-                completion(.failure(error))
             }
         }
+        self.task = task
+        task.resume()
     }
     
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
