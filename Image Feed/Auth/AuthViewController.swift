@@ -35,11 +35,12 @@ extension AuthViewController {
 }
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        ProgressHUD.animate("Loading", .ballVerticalBounce) //поигрался
+        UIBlockingProgressHUD.show()
+//        ProgressHUD.animate("Loading", .ballVerticalBounce) //поигрался
         
         auth2.fetchOAuthToken(code) { [weak self] result in
             
-            ProgressHUD.dismiss()
+        UIBlockingProgressHUD.dismiss()
             switch result {
             case .success(let accessToken):
                 print("Success: \(accessToken)")
