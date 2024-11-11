@@ -52,17 +52,20 @@ final class WebViewViewController: UIViewController {
 
 extension WebViewViewController {
     func loadWebView() {
-        var components = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString)!
-        components.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
-        ]
-        let url = components.url!
-        let request = URLRequest(url: url)
-        webView.load(request)
+        if var components = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) {
+            components.queryItems = [
+                URLQueryItem(name: "client_id", value: Constants.accessKey),
+                URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
+                URLQueryItem(name: "response_type", value: "code"),
+                URLQueryItem(name: "scope", value: Constants.accessScope)
+            ]
+            if let url = components.url {
+                let request = URLRequest(url: url)
+                webView.load(request)
+            }
+        }
     }
+
     
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if let url = navigationAction.request.url,

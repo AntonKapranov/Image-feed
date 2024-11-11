@@ -37,25 +37,29 @@ final class OAuth2Service {
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let request = makeOAuthTokenRequest(code: code) else {
             let error = NSError(domain: "OAuth2Service", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create request"])
-            completion(.failure(NetworkError.urlRequestError(error)))
+            DispatchQueue.main.async {
+                completion(.failure(NetworkError.urlRequestError(error)))
+            }
             return
         }
 
         performRequest(request) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    
-                    let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    self.authToken = responseBody.accessToken
-                    completion(.success(responseBody.accessToken))
-                } catch {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    do {
+                        let decoder = JSONDecoder()
+                        decoder.keyDecodingStrategy = .convertFromSnakeCase
+                        
+                        let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                        self.authToken = responseBody.accessToken
+                        completion(.success(responseBody.accessToken))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                case .failure(let error):
                     completion(.failure(error))
                 }
-            case .failure(let error):
-                completion(.failure(error))
             }
         }
     }
