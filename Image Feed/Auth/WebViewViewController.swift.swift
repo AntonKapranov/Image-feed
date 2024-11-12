@@ -46,22 +46,25 @@ final class WebViewViewController: UIViewController {
     }
     
     @IBAction private func tapBackButton(_ sender: Any?) {
-            delegate?.webViewViewControllerDidCancel(self)
-        }
+        delegate?.webViewViewControllerDidCancel(self)
+    }
 }
 
 extension WebViewViewController {
     func loadWebView() {
-        var components = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString)!
+        guard var components = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else { return }
+        
         components.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
             URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
-        let url = components.url!
-        let request = URLRequest(url: url)
-        webView.load(request)
+        
+        if let url = components.url {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
     }
     
     private func code(from navigationAction: WKNavigationAction) -> String? {
@@ -73,6 +76,7 @@ extension WebViewViewController {
         return nil
     }
 }
+
 extension WebViewViewController: WKNavigationDelegate {
     func webView(
         _ webView: WKWebView,
@@ -122,4 +126,3 @@ extension WebViewViewController {
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
 }
-

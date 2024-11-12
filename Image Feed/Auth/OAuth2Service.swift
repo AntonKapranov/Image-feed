@@ -19,6 +19,14 @@ final class OAuth2Service {
     }
     
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+       //правка из 10 спринта
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async {
+                self.fetchOAuthToken(code, completion: completion)
+            }
+            return
+        }
+
         assert(Thread.isMainThread)
 
         guard lastCode != code else {
