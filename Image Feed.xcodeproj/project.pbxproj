@@ -10,6 +10,7 @@
 		250A44D02CE25C1500A07C1A /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250A44CF2CE25C1100A07C1A /* UIBlockingProgressHUD.swift */; };
 		250A44D22CE2E09500A07C1A /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250A44D12CE2E07F00A07C1A /* ProfileService.swift */; };
 		2521F2DE2CE18A9200955A14 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 2521F2DD2CE18A9200955A14 /* ProgressHUD */; };
+		25370B212CE6F8AB003CEA01 /* ProfileModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25370B202CE6F8A0003CEA01 /* ProfileModels.swift */; };
 		256990242CC73EB800533C7F /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256990232CC73EB300533C7F /* AuthViewController.swift */; };
 		256990282CC761F700533C7F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256990272CC761F000533C7F /* Constants.swift */; };
 		2578B0F22CDEC3550084086A /* WebViewViewController.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2578B0F12CDEC3540084086A /* WebViewViewController.swift.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		250A44CF2CE25C1100A07C1A /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		250A44D12CE2E07F00A07C1A /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		25370B202CE6F8A0003CEA01 /* ProfileModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModels.swift; sourceTree = "<group>"; };
 		256990232CC73EB300533C7F /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		256990272CC761F000533C7F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2578B0F12CDEC3540084086A /* WebViewViewController.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		76639BF32C613E8E00C92A82 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				25370B202CE6F8A0003CEA01 /* ProfileModels.swift */,
 				250A44D12CE2E07F00A07C1A /* ProfileService.swift */,
 				76009E072C5636A000505E50 /* ProfileViewController.swift */,
 			);
@@ -278,6 +281,7 @@
 				250A44D22CE2E09500A07C1A /* ProfileService.swift in Sources */,
 				250A44D02CE25C1500A07C1A /* UIBlockingProgressHUD.swift in Sources */,
 				2578B0F22CDEC3550084086A /* WebViewViewController.swift.swift in Sources */,
+				25370B212CE6F8AB003CEA01 /* ProfileModels.swift in Sources */,
 				2578B1002CE1115E0084086A /* TabBarViewController.swift in Sources */,
 				7D9CFA4328DDEE7F00D971A7 /* AppDelegate.swift in Sources */,
 				7698B4552C5340C20021E6A8 /* DateFormater.swift in Sources */,
