@@ -117,6 +117,10 @@ class ProfileViewController: UIViewController {
     }
     
     private func updateUI(with profile: Profile) {
+        guard let profile = profileService.profile else {
+            print("No profile data found. Check your request.")
+            return }
+        print("Prifile data has been found. Updating UI...")
         namePrimary.text = profile.firstName
         nameSecondary.text = "@\(profile.nickname)"
         userMessage.text = profile.bio

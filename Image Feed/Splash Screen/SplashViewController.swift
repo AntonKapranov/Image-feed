@@ -7,23 +7,56 @@ private enum SplashConstants {
 }
 
 final class SplashViewController: UIViewController {
+    private let profileService = ProfileService.shared
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if let token = SplashConstants.oauth2TokenStorage.token {
             print("Saved token: \(token)")
-            switchToTabBarController()
+            fetchProfileAndSwitchToTabBarController(token: token)
         } else {
             print("No token found in UserDefaults")
             performSegue(withIdentifier: SplashConstants.segueIdentifier, sender: nil)
         }
     }
     
+    private func fetchProfileAndSwitchToTabBarController(token: String) {
+        profileService.fetchProfile(token) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    print("Profile data loaded successfully.")
+                    self?.switchToTabBarController()
+                case .failure(let error):
+                    self?.showErrorAndRetry(error)
+                }
+            }
+        }
+    }
+    
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        guard let window = UIApplication.shared.windows.first else {
+            fatalError("Invalid Configuration")
+        }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
+    }
+    
+    private func showErrorAndRetry(_ error: Error) {
+        let alert = UIAlertController(
+            title: "Error",
+            message: "Failed to load profile: \(error.localizedDescription)",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
+            if let token = SplashConstants.oauth2TokenStorage.token {
+                self?.fetchProfileAndSwitchToTabBarController(token: token)
+            }
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(alert, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -50,7 +83,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let accessToken):
                 SplashConstants.oauth2TokenStorage.token = accessToken
-                self?.switchToTabBarController()
+                self?.fetchProfileAndSwitchToTabBarController(token: accessToken)
             case .failure(let error):
                 print("Error fetching OAuth token: \(error)")
             }
