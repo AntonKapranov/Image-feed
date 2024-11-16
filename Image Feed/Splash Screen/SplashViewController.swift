@@ -14,14 +14,15 @@ final class SplashViewController: UIViewController {
         
         if let token = SplashConstants.oauth2TokenStorage.token {
             print("Saved token: \(token)")
-            fetchProfileAndSwitchToTabBarController(token: token)
+            fetchProfile(token: token)
         } else {
             print("No token found in UserDefaults")
             performSegue(withIdentifier: SplashConstants.segueIdentifier, sender: nil)
         }
     }
     
-    private func fetchProfileAndSwitchToTabBarController(token: String) {
+    private func fetchProfile(token: String) {
+        UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -31,11 +32,13 @@ final class SplashViewController: UIViewController {
                 case .failure(let error):
                     self?.showErrorAndRetry(error)
                 }
+                UIBlockingProgressHUD.dismiss()
             }
         }
     }
     
     private func switchToTabBarController() {
+        print("Switching to tab bar controller")
         guard let window = UIApplication.shared.windows.first else {
             fatalError("Invalid Configuration")
         }
@@ -52,7 +55,7 @@ final class SplashViewController: UIViewController {
         )
         alert.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
             if let token = SplashConstants.oauth2TokenStorage.token {
-                self?.fetchProfileAndSwitchToTabBarController(token: token)
+                self?.fetchProfile(token: token)
             }
         })
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -79,11 +82,12 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchOAuthToken(_ code: String) {
+        print("doing fetchOAuthToken")
         SplashConstants.oauth2Service.fetchOAuthToken(code) { [weak self] result in
             switch result {
             case .success(let accessToken):
                 SplashConstants.oauth2TokenStorage.token = accessToken
-                self?.fetchProfileAndSwitchToTabBarController(token: accessToken)
+                self?.fetchProfile(token: accessToken)
             case .failure(let error):
                 print("Error fetching OAuth token: \(error)")
             }

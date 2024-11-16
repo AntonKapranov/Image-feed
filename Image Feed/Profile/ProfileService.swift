@@ -11,6 +11,7 @@ final class ProfileService {
     private init() {}
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
+        print("doing fetchProfile")
         assert(Thread.isMainThread)
         
         if let existingProfile = profile {

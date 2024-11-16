@@ -10,6 +10,7 @@ final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
     private let auth2 = OAuth2Service.service
     private let tabBArID = "TabBarViewController"
+    private let storage = OAuth2TokenStorage()
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
@@ -36,20 +37,9 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        UIBlockingProgressHUD.show()
-        
-        auth2.fetchOAuthToken(code) { [weak self] result in
-            DispatchQueue.main.async {
-                UIBlockingProgressHUD.dismiss()
-                switch result {
-                case .success(let accessToken):
-                    print("Success: \(accessToken)")
-                    self?.switchToTabBarController()
-                case .failure(let error):
-                    print("Failure: \(error)")
-                }
-            }
-        }
+        print("didAuthenticateWithCode has been called")
+        vc.dismiss(animated: true)
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
