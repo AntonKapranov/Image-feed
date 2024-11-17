@@ -116,15 +116,54 @@ class ProfileViewController: UIViewController {
         }
     }
     
+//    private func updateUI(with profile: Profile) {
+//        guard let profile = profileService.profile else {
+//            print("No profile data found. Check your request.")
+//            return }
+//        print("Prifile data has been found. Updating UI...")
+//        namePrimary.text = profile.firstName
+//        nameSecondary.text = "@\(profile.username)"
+//        userMessage.text = profile.bio
+//        userAvatar.image =
+//    }
     private func updateUI(with profile: Profile) {
         guard let profile = profileService.profile else {
             print("No profile data found. Check your request.")
-            return }
-        print("Prifile data has been found. Updating UI...")
+            return
+        }
+        print("Profile data has been found. Updating UI...")
+        
+        // Обновляем текстовые элементы
         namePrimary.text = profile.firstName
-        nameSecondary.text = "@\(profile.nickname)"
+        nameSecondary.text = "@\(profile.username)"
         userMessage.text = profile.bio
+        
+        // Загружаем картинку профиля
+        if let avatarURL = ProfileImageService.shared.avatarURL {
+            loadImage(from: avatarURL)
+        } else {
+            print("No avatar URL found")
+        }
     }
+
+    // MARK: - Загрузка изображения
+    private func loadImage(from urlString: String) {
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL for profile image")
+            return
+        }
+        
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url) {
+                DispatchQueue.main.async { [weak self] in
+                    self?.userAvatar.image = UIImage(data: data)
+                }
+            } else {
+                print("Failed to load image from URL")
+            }
+        }
+    }
+
     
     private func showError(_ error: Error) {
         let alert = UIAlertController(

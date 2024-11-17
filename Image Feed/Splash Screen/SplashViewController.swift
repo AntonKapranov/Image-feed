@@ -8,7 +8,7 @@ private enum SplashConstants {
 
 final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -26,9 +26,9 @@ final class SplashViewController: UIViewController {
         profileService.fetchProfile(token) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
-                case .success:
-                    print("Profile data loaded successfully.")
-                    self?.switchToTabBarController()
+                case .success(let profile):
+                    print("Profile data loaded successfully:")
+                    self?.fetchProfileImageURL(username: profile.username)
                 case .failure(let error):
                     self?.showErrorAndRetry(error)
                 }
@@ -36,12 +36,32 @@ final class SplashViewController: UIViewController {
             }
         }
     }
+
+    private func fetchProfileImageURL(username: String) {
+        ProfileImageService.shared.fetchProfileImageURL(for: username) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let imageURL):
+                    print("Profile image URL hs been fetched successfully: \(imageURL)")
+                    self?.switchToTabBarController()
+                case .failure(let error):
+                    print("Error fetching profile image URL: \(error)")
+                    self?.showErrorAndRetry(error)
+                }
+            }
+        }
+    }
     
     private func switchToTabBarController() {
         print("Switching to tab bar controller")
-        guard let window = UIApplication.shared.windows.first else {
-            fatalError("Invalid Configuration")
+        guard let windowScene = view.window?.windowScene else {
+            fatalError("Invalid Configuration: no window scene available")
         }
+        
+        guard let window = windowScene.windows.first else {
+            fatalError("Invalid Configuration: no window found")
+        }
+        
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
@@ -82,7 +102,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchOAuthToken(_ code: String) {
-        print("doing fetchOAuthToken")
+        print("Doing fetchOAuthToken")
         SplashConstants.oauth2Service.fetchOAuthToken(code) { [weak self] result in
             switch result {
             case .success(let accessToken):

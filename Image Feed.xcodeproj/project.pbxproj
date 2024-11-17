@@ -20,6 +20,7 @@
 		2578B0FB2CE055E00084086A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2578B0FA2CE055CE0084086A /* SplashViewController.swift */; };
 		2578B1002CE1115E0084086A /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2578B0FF2CE111530084086A /* TabBarViewController.swift */; };
 		2578B1022CE11E150084086A /* Responce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2578B1012CE11E0F0084086A /* Responce.swift */; };
+		25A1C5D02CE9382500042C95 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A1C5CF2CE9382300042C95 /* ProfileImageService.swift */; };
 		76009E082C5636A000505E50 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76009E072C5636A000505E50 /* ProfileViewController.swift */; };
 		7698B4552C5340C20021E6A8 /* DateFormater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7698B4542C5340C20021E6A8 /* DateFormater.swift */; };
 		76D71A022C698D4E00A5B9C2 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D71A012C698D4E00A5B9C2 /* SingleImageViewController.swift */; };
@@ -47,6 +48,7 @@
 		2578B0FA2CE055CE0084086A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2578B0FF2CE111530084086A /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		2578B1012CE11E0F0084086A /* Responce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responce.swift; sourceTree = "<group>"; };
+		25A1C5CF2CE9382300042C95 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		76009E072C5636A000505E50 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		7698B4542C5340C20021E6A8 /* DateFormater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormater.swift; sourceTree = "<group>"; };
 		76D71A012C698D4E00A5B9C2 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				25370B202CE6F8A0003CEA01 /* ProfileModels.swift */,
 				250A44D12CE2E07F00A07C1A /* ProfileService.swift */,
 				76009E072C5636A000505E50 /* ProfileViewController.swift */,
+				25A1C5CF2CE9382300042C95 /* ProfileImageService.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				2578B1022CE11E150084086A /* Responce.swift in Sources */,
 				250A44D22CE2E09500A07C1A /* ProfileService.swift in Sources */,
 				250A44D02CE25C1500A07C1A /* UIBlockingProgressHUD.swift in Sources */,
+				25A1C5D02CE9382500042C95 /* ProfileImageService.swift in Sources */,
 				2578B0F22CDEC3550084086A /* WebViewViewController.swift.swift in Sources */,
 				25370B212CE6F8AB003CEA01 /* ProfileModels.swift in Sources */,
 				2578B1002CE1115E0084086A /* TabBarViewController.swift in Sources */,
