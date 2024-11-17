@@ -1,5 +1,4 @@
 import UIKit
-import ProgressHUD
 
 final class ProfileService {
     static let shared = ProfileService()
@@ -11,10 +10,11 @@ final class ProfileService {
     private init() {}
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-        print("doing fetchProfile")
+        print("Начинается загрузка профиля")
         
         DispatchQueue.main.async {
             if let existingProfile = self.profile {
+                print("Профиль уже загружен, возвращаем кешированный профиль")
                 completion(.success(existingProfile))
                 return
             }
@@ -22,7 +22,7 @@ final class ProfileService {
             self.task?.cancel()
             
             guard let request = self.makeRequest(with: token) else {
-                print("[ProfileService.fetchProfile]: Invalid request")
+                print("[ProfileService.fetchProfile]: Ошибка создания запроса")
                 completion(.failure(NetworkError.urlSessionError))
                 return
             }
@@ -36,11 +36,12 @@ final class ProfileService {
                 
                 switch result {
                 case .failure(let error):
-                    print("[ProfileService.fetchProfile]: \(error.localizedDescription)")
+                    print("[ProfileService.fetchProfile]: Ошибка выполнения задачи - \(error.localizedDescription)")
                     completion(.failure(error))
                 case .success(let profileResult):
                     let profile = Profile(profile: profileResult)
                     self.profile = profile
+                    print("[ProfileService.fetchProfile]: Профиль успешно загружен - \(profile)")
                     completion(.success(profile))
                 }
             }
@@ -51,7 +52,7 @@ final class ProfileService {
     
     func makeRequest(with token: String) -> URLRequest? {
         guard let url = URL(string: "https://api.unsplash.com/me") else {
-            print("[ProfileService.makeRequest]: Invalid URL")
+            print("[ProfileService.makeRequest]: Некорректный URL")
             return nil
         }
         

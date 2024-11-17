@@ -33,14 +33,32 @@ final class AuthViewController: UIViewController {
         let tabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: tabBArID)
         window.rootViewController = tabBarController
     }
+    
+    private func presentFailureAlert() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+    }
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        print("didAuthenticateWithCode has been called")
-        vc.dismiss(animated: true)
-        delegate?.authViewController(self, didAuthenticateWithCode: code)
-    }
+            print("didAuthenticateWithCode has been called")
+            print("check if code is empty")
+            guard !code.isEmpty else {
+                print("Code is empty, \(code), calling an Failure Alert")
+                presentFailureAlert()
+                vc.dismiss(animated: true)
+                return
+            }
+            
+            vc.dismiss(animated: true)
+                print("code is \(code), calling delegate")
+            delegate?.authViewController(self, didAuthenticateWithCode: code)
+        }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         print("Delegate has been called")

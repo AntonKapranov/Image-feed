@@ -10,7 +10,10 @@ final class ProfileImageService {
     static let didChangeNotification = Notification.Name("ProfileImageServiceDidChange")
 
     func fetchProfileImageURL(for username: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let token = ProfileImageService.storage.token else { return }
+        guard let token = ProfileImageService.storage.token else {
+            print("[ProfileImageService]: Токен не найден")
+            return
+        }
         
         let url = URL(string: "https://api.unsplash.com/users/\(username)")!
         var request = URLRequest(url: url)
@@ -22,11 +25,12 @@ final class ProfileImageService {
             
             switch result {
             case .failure(let error):
+                print("[ProfileImageService.fetchProfileImageURL]: Ошибка загрузки изображения профиля - \(error.localizedDescription)")
                 completion(.failure(error))
             case .success(let userResult):
-                
                 if let avatarURL = userResult.profileImage?.large {
                     self.avatarURL = avatarURL
+                    print("[ProfileImageService.fetchProfileImageURL]: URL аватара успешно получен - \(avatarURL)")
                     NotificationCenter.default.post(
                         name: ProfileImageService.didChangeNotification,
                         object: self,
@@ -34,6 +38,7 @@ final class ProfileImageService {
                     )
                     completion(.success(avatarURL))
                 } else {
+                    print("[ProfileImageService.fetchProfileImageURL]: Отсутствует URL аватара в ответе")
                     completion(.failure(NSError(domain: "Invalid data", code: -1, userInfo: nil)))
                 }
             }

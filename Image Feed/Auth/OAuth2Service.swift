@@ -2,6 +2,9 @@ import UIKit
 
 enum AuthServiceError: Error {
     case invalidRequest
+    case failedToCreateRequest
+    case taskAlreadyExists
+    case responseError(String)
 }
 
 final class OAuth2Service {
@@ -19,7 +22,6 @@ final class OAuth2Service {
     }
     
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
-       //правка из 10 спринта
         guard Thread.isMainThread else {
             DispatchQueue.main.async {
                 self.fetchOAuthToken(code, completion: completion)
@@ -28,21 +30,21 @@ final class OAuth2Service {
         }
 
         assert(Thread.isMainThread)
-
+        
+        // Проверяем, не был ли уже использован код
         guard lastCode != code else {
+            print("[OAuth2Service]: Код уже использован: \(code)")
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
 
-        if let currentTask = task {
-            currentTask.cancel()
-            completion(.failure(AuthServiceError.invalidRequest))
-        }
+        cancelCurrentTaskIfExists()
 
         lastCode = code
         
         guard let request = makeOAuthTokenRequest(code: code) else {
-            completion(.failure(AuthServiceError.invalidRequest))
+            print("[OAuth2Service]: Не удалось создать запрос с кодом \(code)")
+            completion(.failure(AuthServiceError.failedToCreateRequest))
             return
         }
 
@@ -53,9 +55,11 @@ final class OAuth2Service {
                 
                 switch result {
                 case .failure(let error):
+                    print("[OAuth2Service]: Ошибка при получении токена: \(error.localizedDescription)")
                     completion(.failure(error))
                 case .success(let responseBody):
                     self?.authToken = responseBody.accessToken
+                    print("[OAuth2Service]: Успешно получен токен: \(responseBody.accessToken)")
                     completion(.success(responseBody.accessToken))
                 }
             }
@@ -65,7 +69,10 @@ final class OAuth2Service {
     }
     
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
-        guard let url = URL(string: "https://unsplash.com/oauth/token") else { return nil }
+        guard let url = URL(string: "https://unsplash.com/oauth/token") else {
+            print("[OAuth2Service]: Некорректный URL для токена")
+            return nil
+        }
 
         let auth2Keys: [String: Any] = [
             "client_id": Constants.accessKey,
@@ -83,7 +90,16 @@ final class OAuth2Service {
             request.httpBody = try JSONSerialization.data(withJSONObject: auth2Keys, options: [])
             return request
         } catch {
+            print("[OAuth2Service]: Ошибка сериализации тела запроса: \(error.localizedDescription)")
             return nil
+        }
+    }
+    
+    private func cancelCurrentTaskIfExists() {
+        if let currentTask = task {
+            print("[OAuth2Service]: Отменяем текущую задачу")
+            currentTask.cancel()
+            task = nil
         }
     }
 }
