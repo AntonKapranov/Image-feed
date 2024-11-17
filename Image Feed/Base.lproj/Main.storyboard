@@ -13,7 +13,7 @@
         <!--ImageList-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="ImageList" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="Image_Feed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImagesListViewController" title="ImageList" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="Image_Feed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -113,10 +113,10 @@
             </objects>
             <point key="canvasLocation" x="927.48091603053433" y="92.957746478873247"/>
         </scene>
-        <!--Tab Bar View Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="d52-2b-dTy">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarViewController" id="raF-F5-Myw" customClass="TabBarViewController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="raF-F5-Myw" customClass="TabBarController" customModule="Image_Feed" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jTb-Ah-34j">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -126,10 +126,6 @@
                             <color key="backgroundColor" name="YP Black"/>
                         </tabBarAppearance>
                     </tabBar>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="0OG-GI-pTP"/>
-                        <segue destination="S7n-1T-BhQ" kind="relationship" relationship="viewControllers" id="kuL-ch-Rw4"/>
-                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-vV-mHe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -205,21 +201,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YHg-od-f1S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1817.5572519083969" y="92.957746478873247"/>
-        </scene>
-        <!--Profile-->
-        <scene sceneID="lgC-D8-FFC">
-            <objects>
-                <viewController title="Profile" id="S7n-1T-BhQ" userLabel="Profile" customClass="ProfileViewController" customModule="Image_Feed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gUe-6v-VWu">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="9xB-Xi-8dz"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="" image="Profile-active" id="khP-D5-dZg"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="d3b-C1-h41" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-720" y="93"/>
         </scene>
         <!--Auth View Controller-->
         <scene sceneID="5Af-Ky-qLe">
@@ -384,7 +365,6 @@
     <resources>
         <image name="Heart-active" width="42" height="42"/>
         <image name="Main-active" width="30" height="30"/>
-        <image name="Profile-active" width="30" height="30"/>
         <image name="back-button" width="24" height="24"/>
         <image name="mock-image0" width="1600" height="1059"/>
         <image name="nav_back_button" width="24" height="24"/>
