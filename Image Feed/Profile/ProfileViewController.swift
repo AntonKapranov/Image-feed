@@ -1,14 +1,16 @@
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
     private let tokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private let placeholderImage = UIImage(named: "placeholder")
     
     private let userAvatar: UIImageView = {
         let view = UIImageView()
 //        view.image = UIImage(named: "Avatar")
-        view.backgroundColor = .lightGray
+//        view.backgroundColor = .lightGray
         let size: CGFloat = 70
         view.widthAnchor.constraint(equalToConstant: size).isActive = true
         view.heightAnchor.constraint(equalToConstant: size).isActive = true
@@ -87,6 +89,7 @@ class ProfileViewController: UIViewController {
         setupView()
         addConstraints()
         loadProfileData() // Загружаем данные
+        updateAvatar()
         
         profileImageServiceObserver = NotificationCenter.default.addObserver(
             forName: ProfileImageService.didChangeNotification,
@@ -183,6 +186,8 @@ extension ProfileViewController {
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
+        print("calling kinfisher")
+        userAvatar.kf.setImage(with: url, placeholder: placeholderImage, options: [.keepCurrentImageWhileLoading])
         // TODO [Sprint 11] Обновить аватар, используя Kingfisher
     }
 }
