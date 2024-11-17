@@ -17,29 +17,26 @@ final class ProfileImageService {
         request.httpMethod = "GET"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self = self else { return }
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            guard
-                let data = data,
-                let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                let profileImageURLs = json["profile_image"] as? [String: String],
-                let avatarURL = profileImageURLs["large"]
-            else {
-                completion(.failure(NSError(domain: "Invalid data", code: -1, userInfo: nil)))
-                return
-            }
             
-            self.avatarURL = avatarURL
-            NotificationCenter.default.post(
-                name: ProfileImageService.didChangeNotification,
-                object: self,
-                userInfo: ["URL": avatarURL]
-            )
-            completion(.success(avatarURL))
+            switch result {
+            case .failure(let error):
+                completion(.failure(error))
+            case .success(let userResult):
+                
+                if let avatarURL = userResult.profileImage?.large {
+                    self.avatarURL = avatarURL
+                    NotificationCenter.default.post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": avatarURL]
+                    )
+                    completion(.success(avatarURL))
+                } else {
+                    completion(.failure(NSError(domain: "Invalid data", code: -1, userInfo: nil)))
+                }
+            }
         }
         task.resume()
     }

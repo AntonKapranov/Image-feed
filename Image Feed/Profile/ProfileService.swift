@@ -12,50 +12,43 @@ final class ProfileService {
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         print("doing fetchProfile")
-        assert(Thread.isMainThread)
         
-        if let existingProfile = profile {
-            completion(.success(existingProfile))
-            return
-        }
-        
-        task?.cancel()
-        
-        guard let request = makeRequest(with: token) else {
-            print("[ProfileService.fetchProfile]: Invalid request")
-            completion(.failure(NetworkError.urlSessionError))
-            return
-        }
-        
-        isLoading = true
-        
-        task = URLSession.shared.dataTask(with: request) { [weak self] result in
-            defer { self?.isLoading = false }
-            guard let self = self else { return }
+        DispatchQueue.main.async {
+            if let existingProfile = self.profile {
+                completion(.success(existingProfile))
+                return
+            }
             
-            switch result {
-            case .success(let data):
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let profileResult = try decoder.decode(ProfileResults.self, from: data)
+            self.task?.cancel()
+            
+            guard let request = self.makeRequest(with: token) else {
+                print("[ProfileService.fetchProfile]: Invalid request")
+                completion(.failure(NetworkError.urlSessionError))
+                return
+            }
+            
+            self.isLoading = true
+            
+            self.task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<ProfileResults, Error>) in
+                guard let self = self else { return }
+                
+                defer { self.isLoading = false }
+                
+                switch result {
+                case .failure(let error):
+                    print("[ProfileService.fetchProfile]: \(error.localizedDescription)")
+                    completion(.failure(error))
+                case .success(let profileResult):
                     let profile = Profile(profile: profileResult)
                     self.profile = profile
                     completion(.success(profile))
-                } catch {
-                    print("[ProfileService.fetchProfile]: Decoding error - \(error.localizedDescription)")
-                    completion(.failure(NetworkError.decodingError))
                 }
-            case .failure(let error):
-                print("[ProfileService.fetchProfile]: \(error.localizedDescription)")
-                completion(.failure(error))
             }
+            
+            self.task?.resume()
         }
-        
-        task?.resume()
     }
-
-        
+    
     func makeRequest(with token: String) -> URLRequest? {
         guard let url = URL(string: "https://api.unsplash.com/me") else {
             print("[ProfileService.makeRequest]: Invalid URL")

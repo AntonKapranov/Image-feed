@@ -8,11 +8,17 @@ enum NetworkError: Error {
 }
 
 extension URLSession {
-    func dataTask(
-        with request: URLRequest,
-        completion: @escaping (Result<Data, Error>) -> Void
+    func objectTask<T: Decodable>(
+        for request: URLRequest,
+        completion: @escaping (Result<T, Error>) -> Void
     ) -> URLSessionTask {
-        let fulfillCompletionOnTheMainThread: (Result<Data, Error>) -> Void = { result in
+        let decoder: JSONDecoder = {
+            let result = JSONDecoder()
+            result.keyDecodingStrategy = .convertFromSnakeCase
+            return result
+        }()
+        
+        let fulfillCompletionOnTheMainThread: (Result<T, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 completion(result)
             }
@@ -22,7 +28,13 @@ extension URLSession {
             if let data = data, let response = response as? HTTPURLResponse {
                 let statusCode = response.statusCode
                 if 200 ..< 300 ~= statusCode {
-                    fulfillCompletionOnTheMainThread(.success(data))
+                    do {
+                        let decodedObject = try decoder.decode(T.self, from: data)
+                        fulfillCompletionOnTheMainThread(.success(decodedObject))
+                    } catch {
+                        print("Ошибка декодирования: \(error.localizedDescription), данные: \(String(data: data, encoding: .utf8) ?? "")")
+                        fulfillCompletionOnTheMainThread(.failure(NetworkError.decodingError))
+                    }
                 } else {
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 }
@@ -33,6 +45,7 @@ extension URLSession {
             }
         }
         
+        task.resume()
         return task
     }
 }
