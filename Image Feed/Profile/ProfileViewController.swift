@@ -3,10 +3,11 @@ import UIKit
 class ProfileViewController: UIViewController {
     private let tokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     private let userAvatar: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "Avatar")
+//        view.image = UIImage(named: "Avatar")
         view.backgroundColor = .lightGray
         let size: CGFloat = 70
         view.widthAnchor.constraint(equalToConstant: size).isActive = true
@@ -86,6 +87,15 @@ class ProfileViewController: UIViewController {
         setupView()
         addConstraints()
         loadProfileData() // Загружаем данные
+        
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.updateAvatar()
+        }
+        
     }
     
     private func setupView() {
@@ -115,17 +125,7 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-    
-//    private func updateUI(with profile: Profile) {
-//        guard let profile = profileService.profile else {
-//            print("No profile data found. Check your request.")
-//            return }
-//        print("Prifile data has been found. Updating UI...")
-//        namePrimary.text = profile.firstName
-//        nameSecondary.text = "@\(profile.username)"
-//        userMessage.text = profile.bio
-//        userAvatar.image =
-//    }
+ 
     private func updateUI(with profile: Profile) {
         guard let profile = profileService.profile else {
             print("No profile data found. Check your request.")
@@ -176,6 +176,16 @@ class ProfileViewController: UIViewController {
     }
 }
 
+//MARK: TODO
+extension ProfileViewController {
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+    }
+}
 extension ProfileViewController {
     private func addConstraints() {
         NSLayoutConstraint.activate([
