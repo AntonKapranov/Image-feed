@@ -1,14 +1,20 @@
 import UIKit
 
 private enum SplashConstants {
-    static let segueIdentifier = "ShowAuthenticationScreen"
     static let oauth2Service = OAuth2Service.service
     static let oauth2TokenStorage = OAuth2TokenStorage()
 }
 
 final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
-
+    
+    private let splashImageView: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "splash_screen_logo")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -17,7 +23,7 @@ final class SplashViewController: UIViewController {
             fetchProfile(token: token)
         } else {
             print("No token found in UserDefaults")
-            performSegue(withIdentifier: SplashConstants.segueIdentifier, sender: nil)
+            switchToAuthViewController()
         }
     }
     
@@ -29,6 +35,7 @@ final class SplashViewController: UIViewController {
                 case .success(let profile):
                     print("Profile data loaded successfully:")
                     self?.fetchProfileImageURL(username: profile.username)
+                    self?.switchToTabBarController()
                 case .failure(let error):
                     self?.showErrorAndRetry(error)
                 }
@@ -42,7 +49,7 @@ final class SplashViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let imageURL):
-                    print("Profile image URL hs been fetched successfully: \(imageURL)")
+                    print("Profile image URL has been fetched successfully: \(imageURL)")
                     self?.switchToTabBarController()
                 case .failure(let error):
                     print("Error fetching profile image URL: \(error)")
@@ -53,19 +60,15 @@ final class SplashViewController: UIViewController {
     }
     
     private func switchToTabBarController() {
-        print("Switching to tab bar controller")
-        guard let windowScene = view.window?.windowScene else {
-            fatalError("Invalid Configuration: no window scene available")
+        guard let window = UIApplication.shared.windows.first else {
+            fatalError("Invalid Configuration")
         }
-        
-        guard let window = windowScene.windows.first else {
-            fatalError("Invalid Configuration: no window found")
-        }
-        
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
     }
+    
+    
     
     private func showErrorAndRetry(_ error: Error) {
         let alert = UIAlertController(
@@ -81,16 +84,14 @@ final class SplashViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(alert, animated: true)
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == SplashConstants.segueIdentifier {
-            guard let navigationController = segue.destination as? UINavigationController else {
-                fatalError("Failed to prepare for \(SplashConstants.segueIdentifier)")
-            }
-            if let viewController = navigationController.viewControllers.first as? AuthViewController {
-                viewController.delegate = self
-            }
+    private func switchToAuthViewController() {
+        guard let authViewController = UIStoryboard(name: "Main", bundle: .main)
+            .instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {
+            fatalError("Invalid Configuration")
         }
+        authViewController.delegate = self
+        authViewController.modalPresentationStyle = .fullScreen
+        present(authViewController, animated: true)
     }
 }
 
@@ -112,5 +113,28 @@ extension SplashViewController: AuthViewControllerDelegate {
                 print("Error fetching OAuth token: \(error)")
             }
         }
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setupConstraints()
+    }
+}
+
+// MARK: UI and Constraints
+extension SplashViewController {
+    private func setupUI() {
+        view.backgroundColor = .ypBlack
+        view.addSubview(splashImageView)
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            splashImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            splashImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            splashImageView.heightAnchor.constraint(equalToConstant: 60),
+            splashImageView.widthAnchor.constraint(equalToConstant: 60)
+        ])
     }
 }

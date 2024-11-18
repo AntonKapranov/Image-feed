@@ -10,8 +10,6 @@ class ProfileViewController: UIViewController {
     
     private let userAvatar: UIImageView = {
         let view = UIImageView()
-//        view.image = UIImage(named: "Avatar")
-//        view.backgroundColor = .lightGray
         let size: CGFloat = 70
         view.widthAnchor.constraint(equalToConstant: size).isActive = true
         view.heightAnchor.constraint(equalToConstant: size).isActive = true
@@ -89,6 +87,7 @@ class ProfileViewController: UIViewController {
         setupStackView()
         setupView()
         addConstraints()
+        exitButton.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         loadProfileData() // Загружаем данные
         updateAvatar()
         
@@ -191,6 +190,47 @@ extension ProfileViewController {
         userAvatar.kf.setImage(with: url, placeholder: placeholderImage, options: [.keepCurrentImageWhileLoading])
         // TODO [Sprint 11] Обновить аватар, используя Kingfisher
     }
+    
+    @objc
+    private func handleLogout() {
+        let alert = UIAlertController(
+            title: "Хочешь выйти?",
+            message: "а не получится",
+            preferredStyle: .alert
+        )
+        
+        let action = UIAlertAction(title: "Выйти", style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+            
+            //MARK: Крашится, пока отключено
+//            tokenStorage.removeToken()
+//            
+//            self.backToRoorController()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        
+        alert.addAction(action)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
+    @objc
+    private func backToRoorController() {   //MARK: Second login crash, no window awaliable
+        guard let windowScene = UIApplication.shared.connectedScenes
+                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+              let window = windowScene.windows.first else {
+            print("Ошибка: нет сцены доступной для отображения,")
+            return
+        }
+        
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
+        window.makeKeyAndVisible()
+    }
+
+
 }
 extension ProfileViewController {
     private func addConstraints() {
