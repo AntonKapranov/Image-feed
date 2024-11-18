@@ -51,11 +51,11 @@ extension AuthViewController: WebViewViewControllerDelegate {
             guard !code.isEmpty else {
                 print("Code is empty, \(code), calling an Failure Alert")
                 presentFailureAlert()
-                vc.dismiss(animated: true)
+//                vc.dismiss(animated: true)
                 return
             }
             
-            vc.dismiss(animated: true)
+//            vc.dismiss(animated: true)
                 print("code is \(code), calling delegate")
             delegate?.authViewController(self, didAuthenticateWithCode: code)
         }

@@ -50,7 +50,7 @@ final class SplashViewController: UIViewController {
                 switch result {
                 case .success(let imageURL):
                     print("Profile image URL has been fetched successfully: \(imageURL)")
-                    self?.switchToTabBarController()
+//                    self?.switchToTabBarController()
                 case .failure(let error):
                     print("Error fetching profile image URL: \(error)")
                     self?.showErrorAndRetry(error)
