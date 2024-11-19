@@ -17,7 +17,7 @@ final class AuthViewController: UIViewController {
             guard !UIBlockingProgressHUD.isActive else { return }
             
             guard let webViewViewController = segue.destination as? WebViewViewController else {
-                assertionFailure("[AuthViewController]: Failed to prepare for \(showWebViewSegueIdentifier)")
+                assertionFailure("[AuthViewController]: Ошибка подготовки к переходу \(showWebViewSegueIdentifier)")
                 return
             }
             webViewViewController.delegate = self
@@ -29,7 +29,7 @@ final class AuthViewController: UIViewController {
     private func switchToTabBarController() {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else {
-            assertionFailure("[AuthViewController]: No available window to set root view controller")
+            assertionFailure("[AuthViewController]: Не удалось найти окно для установки корневого контроллера")
             return
         }
         
@@ -52,24 +52,24 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        print("[AuthViewController]: didAuthenticateWithCode called")
+        print("[AuthViewController]: Метод didAuthenticateWithCode вызван")
         
         guard !code.isEmpty else {
-            print("[AuthViewController]: Code is empty, showing failure alert")
+            print("[AuthViewController]: Код пустой, вызываю алерт .presentFailureAlert()")
             vc.dismiss(animated: true) { [weak self] in
                 self?.presentFailureAlert()
             }
             return
         }
         
-        print("[AuthViewController]: Code received: \(code), notifying delegate")
+        print("[AuthViewController]: Код получен: \(code), вызываю делегат .authViewController(self!, didAuthenticateWithCode: code)")
         vc.dismiss(animated: true) { [weak self] in
             self?.delegate?.authViewController(self!, didAuthenticateWithCode: code)
         }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
-        print("[AuthViewController]: User canceled authorization")
+        print("[AuthViewController]: Пользователь отменил авторизацию")
         dismiss(animated: true)
     }
 }

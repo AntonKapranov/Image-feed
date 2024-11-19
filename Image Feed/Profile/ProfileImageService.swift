@@ -11,7 +11,7 @@ final class ProfileImageService {
 
     func fetchProfileImageURL(for username: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard let token = ProfileImageService.storage.token else {
-            print("[ProfileImageService]: Токен не найден")
+            print("[ProfileImageService]: Ошибка — токен не найден")
             return
         }
         
@@ -25,12 +25,12 @@ final class ProfileImageService {
             
             switch result {
             case .failure(let error):
-                print("[ProfileImageService.fetchProfileImageURL]: Ошибка загрузки изображения профиля - \(error.localizedDescription)")
+                print("[ProfileImageService.fetchProfileImageURL]: Ошибка — не удалось загрузить изображение профиля: \(error.localizedDescription)")
                 completion(.failure(error))
             case .success(let userResult):
                 if let avatarURL = userResult.profileImage?.large {
                     self.avatarURL = avatarURL
-                    print("[ProfileImageService.fetchProfileImageURL]: URL аватара успешно получен - \(avatarURL)")
+                    print("[ProfileImageService.fetchProfileImageURL]: Успех — URL аватара получен: \(avatarURL)")
                     NotificationCenter.default.post(
                         name: ProfileImageService.didChangeNotification,
                         object: self,
@@ -38,7 +38,7 @@ final class ProfileImageService {
                     )
                     completion(.success(avatarURL))
                 } else {
-                    print("[ProfileImageService.fetchProfileImageURL]: Отсутствует URL аватара в ответе")
+                    print("[ProfileImageService.fetchProfileImageURL]: Ошибка — отсутствует URL аватара в ответе")
                     completion(.failure(NSError(domain: "Invalid data", code: -1, userInfo: nil)))
                 }
             }
@@ -46,3 +46,4 @@ final class ProfileImageService {
         task.resume()
     }
 }
+

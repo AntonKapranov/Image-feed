@@ -131,10 +131,10 @@ class ProfileViewController: UIViewController {
  
     private func updateUI(with profile: Profile) {
         guard let profile = profileService.profile else {
-            print("No profile data found. Check your request.")
+            print("[updateUI]: No profile data found. Check your request.")
             return
         }
-        print("Profile data has been found. Updating UI...")
+        print("[updateUI]: Profile data has been found. Updating UI...")
         
         // Обновляем текстовые элементы
         namePrimary.text = profile.firstName
@@ -145,14 +145,14 @@ class ProfileViewController: UIViewController {
         if let avatarURL = ProfileImageService.shared.avatarURL {
             loadImage(from: avatarURL)
         } else {
-            print("No avatar URL found")
+            print("[updateUI]: No avatar URL found")
         }
     }
 
     // MARK: - Загрузка изображения
     private func loadImage(from urlString: String) {
         guard let url = URL(string: urlString) else {
-            print("Invalid URL for profile image")
+            print("[loadImage]: Invalid URL for profile image")
             return
         }
         
@@ -162,7 +162,7 @@ class ProfileViewController: UIViewController {
                     self?.userAvatar.image = UIImage(data: data)
                 }
             } else {
-                print("Failed to load image from URL")
+                print("[loadImage]: Failed to load image from URL")
             }
         }
     }
@@ -186,7 +186,7 @@ extension ProfileViewController {
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-        print("calling kinfisher")
+        print("[updateAvatar]: calling kinfisher")
         userAvatar.kf.setImage(with: url, placeholder: placeholderImage, options: [.keepCurrentImageWhileLoading])
         // TODO [Sprint 11] Обновить аватар, используя Kingfisher
     }
@@ -221,7 +221,7 @@ extension ProfileViewController {
         guard let windowScene = UIApplication.shared.connectedScenes
                 .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
               let window = windowScene.windows.first else {
-            print("Ошибка: нет сцены доступной для отображения,")
+            print("[backToRoorController()]: Ошибка: нет сцены доступной для отображения.")
             return
         }
         
