@@ -9,8 +9,3 @@ final class ImagesListCell: UITableViewCell {
     
     
 }
-
-//
-//@IBOutlet weak var buttonCell: UIButton!
-//@IBOutlet weak var labelCell: UILabel!
-//@IBOutlet weak var imageCell: UIImageView!

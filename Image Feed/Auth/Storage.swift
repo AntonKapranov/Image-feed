@@ -2,14 +2,6 @@ import UIKit
 import SwiftKeychainWrapper
 
 final class OAuth2TokenStorage {
-//    var token: String? {
-//        get {
-//            return UserDefaults.standard.string(forKey: "OAuth2AccessToken")
-//        }
-//        set {
-//            UserDefaults.standard.set(newValue, forKey: "OAuth2AccessToken")
-//        }
-//    }
     
     var token: String? {
         get {
@@ -23,6 +15,6 @@ final class OAuth2TokenStorage {
     
     func removeToken() {
         KeychainWrapper.standard.removeObject(forKey: "OAuth2Token")
-        print("Удаляю токен. Тепер он: \(token)")
+        print("[removeToken]: Удаляю токен. Тепер он: \(token)")
     }
 }

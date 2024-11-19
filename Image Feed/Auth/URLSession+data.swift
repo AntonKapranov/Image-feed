@@ -32,18 +32,18 @@ extension URLSession {
                         let decodedObject = try decoder.decode(T.self, from: data)
                         fulfillCompletionOnTheMainThread(.success(decodedObject))
                     } catch {
-                        print("Ошибка декодирования: \(error.localizedDescription), данные: \(String(data: data, encoding: .utf8) ?? "N/A")")
+                        print("[objectTask]: DecodingError - \(error.localizedDescription), данные: \(String(data: data, encoding: .utf8) ?? "N/A")")
                         fulfillCompletionOnTheMainThread(.failure(NetworkError.decodingError))
                     }
                 } else {
-                    print("HTTP ошибка: статус код \(statusCode), URL: \(request.url?.absoluteString ?? "N/A")")
+                    print("[objectTask]: HTTPError - статус код \(statusCode), URL: \(request.url?.absoluteString ?? "N/A")")
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 }
             } else if let error = error {
-                print("Ошибка запроса: \(error.localizedDescription), URL: \(request.url?.absoluteString ?? "N/A")")
+                print("[objectTask]: URLRequestError - \(error.localizedDescription), URL: \(request.url?.absoluteString ?? "N/A")")
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
             } else {
-                print("Неизвестная ошибка в URLSession. URL: \(request.url?.absoluteString ?? "N/A")")
+                print("[objectTask]: URLSessionError - неизвестная ошибка, URL: \(request.url?.absoluteString ?? "N/A")")
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
             }
         }
@@ -52,3 +52,4 @@ extension URLSession {
         return task
     }
 }
+

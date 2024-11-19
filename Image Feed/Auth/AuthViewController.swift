@@ -9,7 +9,7 @@ final class AuthViewController: UIViewController {
     weak var delegate: AuthViewControllerDelegate?
     private let showWebViewSegueIdentifier = "ShowWebView"
     private let auth2 = OAuth2Service.service
-    private let tabBArID = "TabBarViewController"
+    private let tabBarID = "TabBarViewController"
     private let storage = OAuth2TokenStorage()
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -17,7 +17,8 @@ final class AuthViewController: UIViewController {
             guard !UIBlockingProgressHUD.isActive else { return }
             
             guard let webViewViewController = segue.destination as? WebViewViewController else {
-                fatalError("Failed to prepare for \(showWebViewSegueIdentifier)")
+                assertionFailure("[AuthViewController]: Failed to prepare for \(showWebViewSegueIdentifier)")
+                return
             }
             webViewViewController.delegate = self
         } else {
@@ -25,43 +26,50 @@ final class AuthViewController: UIViewController {
         }
     }
     
-    func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else {
-            fatalError("No available window to set root view controller")
+    private func switchToTabBarController() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else {
+            assertionFailure("[AuthViewController]: No available window to set root view controller")
+            return
         }
         
-        let tabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: tabBArID)
+        let tabBarController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: tabBarID)
         window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
     }
     
     private func presentFailureAlert() {
         let alert = UIAlertController(
             title: "Что-то пошло не так",
             message: "Не удалось войти в систему",
-            preferredStyle: .alert)
+            preferredStyle: .alert
+        )
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(action)
+        present(alert, animated: true)
     }
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-            print("didAuthenticateWithCode has been called")
-            print("check if code is empty")
-            guard !code.isEmpty else {
-                print("Code is empty, \(code), calling an Failure Alert")
-                presentFailureAlert()
-//                vc.dismiss(animated: true)
-                return
+        print("[AuthViewController]: didAuthenticateWithCode called")
+        
+        guard !code.isEmpty else {
+            print("[AuthViewController]: Code is empty, showing failure alert")
+            vc.dismiss(animated: true) { [weak self] in
+                self?.presentFailureAlert()
             }
-            
-//            vc.dismiss(animated: true)
-                print("code is \(code), calling delegate")
-            delegate?.authViewController(self, didAuthenticateWithCode: code)
+            return
         }
+        
+        print("[AuthViewController]: Code received: \(code), notifying delegate")
+        vc.dismiss(animated: true) { [weak self] in
+            self?.delegate?.authViewController(self!, didAuthenticateWithCode: code)
+        }
+    }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
-        print("Delegate has been called")
+        print("[AuthViewController]: User canceled authorization")
         dismiss(animated: true)
     }
 }
